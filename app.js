@@ -1,7 +1,11 @@
 const express = require('express');
 const app = express();
 
+const listViewRouter = require('./list-view-router');
+const listEditRouter = require('./list-edit-router');
 
+app.use('/list', listViewRouter);
+app.use('/list', listEditRouter);
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');

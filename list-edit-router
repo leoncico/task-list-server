@@ -1,0 +1,16 @@
+const { Router } = require("express");
+const router = Router();
+
+router.post("/:id", function (req, res) {
+  res.send("Tarea " + req.params.id + " creada");
+});
+
+router.put("/:id", function (req, res) {
+    res.send("Tarea " + req.params.id + " actualizada");
+});
+
+router.delete("/:id", function (req, res) {
+    res.send("Tarea " + req.params.id + " eliminada");
+});
+
+module.exports = router;
