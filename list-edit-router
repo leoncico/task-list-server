@@ -1,16 +1,34 @@
 const { Router } = require("express");
 const router = Router();
 
-router.post("/:id", function (req, res) {
+function validateTaskRequest(req, res, next) {
+    if (!req.body || Object.keys(req.body).length === 0) {
+        return res.status(400).json({ error: "El cuerpo de la solicitud no puede estar vacío." });
+    }
+    
+    const description = req.body.description;
+    const isCompleted = req.body.isCompleted;
+    
+    if (typeof description !== "string" || description.trim() === "") {
+        return res.status(400).json({ error: "La descripción es requerida y debe ser una cadena válida." });
+    }
+    if (typeof isCompleted !== "boolean") {
+        return res.status(400).json({ error: "El estado de completado es requerido y debe ser un valor booleano." });
+    }
+    
+    next();
+}
+
+router.post("/:id", validateTaskRequest, (req, res) => {
   res.send("Tarea " + req.params.id + " creada");
 });
 
-router.put("/:id", function (req, res) {
-    res.send("Tarea " + req.params.id + " actualizada");
+router.put("/:id", validateTaskRequest, (req, res) => {
+  res.send("Tarea " + req.params.id + " actualizada");
 });
 
-router.delete("/:id", function (req, res) {
-    res.send("Tarea " + req.params.id + " eliminada");
+router.delete("/:id", (req, res) => {
+  res.send("Tarea " + req.params.id + " eliminada");
 });
 
 module.exports = router;

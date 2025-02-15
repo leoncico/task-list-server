@@ -4,6 +4,15 @@ const app = express();
 const listViewRouter = require('./list-view-router');
 const listEditRouter = require('./list-edit-router');
 
+
+app.use((req, res, next) => {
+    const validMethods = ['GET', 'POST', 'PUT', 'DELETE'];
+    if (!validMethods.includes(req.method)) {
+        return res.status(405).json({ error: 'Método HTTP no permitido.' });
+    }
+    next();
+});
+
 app.use('/list', listViewRouter);
 app.use('/list', listEditRouter);
 
